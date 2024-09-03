@@ -53,7 +53,7 @@ app.use(
       "https://main.d31j5vsxkv6nom.amplifyapp.com/",
     "https://master-project-85e86.web.app",
     "https://master-project-85e86.firebaseapp.com",
-    "https://client-74tq.onrender.com/"
+    "https://client-74tq.onrender.com"
     ],
     methods: ["GET", "POST","PUT", "DELETE", "PATCH"],
     credentials: true,

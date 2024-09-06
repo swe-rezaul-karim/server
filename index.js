@@ -666,6 +666,7 @@ const io = new Server(httpServer,  {
     origin: ["http://localhost:5173",
       "https://main.d31j5vsxkv6nom.amplifyapp.com/",
     "https://master-project-85e86.web.app",
+    "https://client-74tq.onrender.com/",
     "https://master-project-85e86.firebaseapp.com"],
     methods: ["GET", "POST"],
   }

@@ -14,14 +14,13 @@ module.exports = function (socket, io) {
   });
 
   socket.on("callUser", (data) => {
-    let userInfo = onlineUsers.find(u => u.socketId === data.from);
-    io.to(userInfo.socketId).emit("callUser", {
+    let userId = data.userToCall;
+    let userSocketInfo = onlineUsers.find(user => user.socketId === userId);
+    io.to(userSocketInfo.socketId).emit("callUser", {
       signal: data.signal,
-      from: data.from,
+      from: socket.id,
       name: data.name,
       picture: data.picture,
-      email: data.email,
-      to: socket.id
     });
 
   });
@@ -30,7 +29,11 @@ module.exports = function (socket, io) {
     socket.to(id).emit("callDeclined");
   });
 
-  socket.on("callAccepted", (data) => {
+  socket.on("callEnded", (id) => {
+    socket.to(id).emit("callEnded");
+  });
+
+  socket.on("answerCall", (data) => {
     io.to(data.to).emit("callAccepted", data.signal);
   });
 
@@ -38,27 +41,6 @@ module.exports = function (socket, io) {
     onlineUsers = onlineUsers.filter((user) => user.socketId !== socket.id);
     io.emit("get-online-users", onlineUsers);
   })
-
-  //         socket.on('offer', (data) => {
-  //           io.to(data.receiver).emit('offer', data);
-  //         });
-
-  //         socket.on('answer', (data) => {
-  //           io.to(data.receiver).emit('answer', data);
-  //         });
-
-  //         socket.on('ice-candidate', (data) => {
-  //           io.to(data.receiver).emit('ice-candidate', data);
-  //         });
-
-  //         socket.on("sendMessage", async (data) => {
-  //           const { sender, receiver, message } = data;
-  //           const newMessage = { sender, receiver, message, timestamp: new Date() };
-  //           await messageCollection.insertOne(newMessage);
-  //           io.to(message.receiver).emit("newMessage", newMessage);
-  //         });
-
-  //         socket.on('disconnect', () => {
-  //           console.log('user disconnected');
-  //         });
 };
+
+
